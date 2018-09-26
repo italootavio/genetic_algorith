@@ -1,14 +1,16 @@
 import math
+import matplotlib.pyplot as plt
 from random import shuffle
 from random import randint
+from Maps import *
 
 class City:
     def __init__(self,x,y):
         self.x = x
         self.y = y
     def randCity(self):
-        self.x = randint(0,200)
-        self.y = randint(0, 200)
+        self.x = randint(0,500)
+        self.y = randint(0,500)
 
     def distanceTo(self,cidade):
         distanciaX = abs(self.x - cidade.x)
@@ -195,6 +197,7 @@ class GA:
         return fittest
 class TSP_GA:
     def __init__(self):
+
         city = City(60,200)
         TourManager.addCity(city)
         city = City(180, 200)
@@ -235,6 +238,21 @@ class TSP_GA:
         TourManager.addCity(city)
         city = City(160, 20)
         TourManager.addCity(city)
+        '''
+        for i in range(0,25):
+            city = City(0,0)
+            city.randCity()
+            TourManager.addCity(city)
+        '''
+        pontosX = []
+        pontosY = []
+
+        for i in range(0,TourManager.numberOfCities()):
+            pontosX.append(TourManager.getCidy(i).x)
+            pontosY.append(TourManager.getCidy(i).y)
+        plt.plot(pontosX,pontosY,"ro")
+
+        plt.show()
 
         pop = Population(50,True)
         print("Distância inicial: "+str(pop.getFittest().getDistance()))
@@ -247,5 +265,15 @@ class TSP_GA:
         print("Distância Final: "+str(pop.getFittest().getDistance()))
         print("Solução: ")
         print(pop.getFittest())
+        print(pop.getFittest().tour)
+        plt.plot(pontosX, pontosY, "ro")
+        pontosX = []
+        pontosY = []
+        for i in pop.getFittest().tour:
+            pontosX.append(i.x)
+            pontosY.append(i.y)
+        plt.plot(pontosX, pontosY)
+        plt.show()
+
 
 ma = TSP_GA()
